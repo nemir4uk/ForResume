@@ -131,3 +131,4 @@ print("Accuracy: ", accuracy)
 # График зависимости ошибки от итераций
 plt.plot(loss_arr)
 plt.show()
+
