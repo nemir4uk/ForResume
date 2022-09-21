@@ -124,11 +124,10 @@ for ep in range(NUM_EPOCHS):
 
         loss_arr.append(E)
 
-
+# Вывод результата
 accuracy = calc_accuracy()
 print("Accuracy: ", accuracy)
 
 # График зависимости ошибки от итераций
 plt.plot(loss_arr)
 plt.show()
-
