@@ -97,12 +97,20 @@ sd_a = np.std(bootstrap_values)
 sd_b = np.std(bootstrap_values2)
 alpha = 0.05
 beta = 0.8
-def estimate_effect_size(sd1, sd2, n, alpha, power):
-    S = np.sqrt((sd1**2 / n) + (sd2**2 / n))
+def estimate_effect_size(sd_t, sd_c, n_t, n_c, alpha, power):
+    S = np.sqrt((sd_t**2 / n_t) + (sd_c**2 / n_c))
     M = norm.ppf(q=1-alpha/2) + norm.ppf(q=power)
     return M * S
 
 output = "MDE for alpha={} and power={}: "
-print(output.format(alpha, beta), estimate_effect_size(sd_a, sd_b, n, alpha, beta))
-print("Среднее по бутстрапированным средним A-подвыборки", np.mean(bootstrap_values))
-print("Среднее по бутстрапированным средним B-подвыборки", np.mean(bootstrap_values2))
+print(output.format(alpha, beta), estimate_effect_size(sd_a, sd_b, B, B, alpha, beta))
+print("Среднее по бутстрапированным средним A-подвыборки", np.mean(bootstrap_values), " (Исходное среднее: ", a_df["NO"].mean(), ")")
+print("Среднее по бутстрапированным средним B-подвыборки", np.mean(bootstrap_values2), " (Исходное среднее: ", b_df["NO"].mean(), ")", "\n")
+
+# Рассчет оценки прироста метрики
+def estimate_lift(estimate_y_test, estimate_y_control):
+    lift = (estimate_y_test - estimate_y_control) / estimate_y_control
+    return lift
+
+output = "Прирост среднего значения B-подвыборки(test) относительно A-подвыборки(control): {}\n"
+print(output.format(estimate_lift(np.mean(bootstrap_values2), np.mean(bootstrap_values))))
