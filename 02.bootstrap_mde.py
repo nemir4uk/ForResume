@@ -112,5 +112,43 @@ def estimate_lift(estimate_y_test, estimate_y_control):
     lift = (estimate_y_test - estimate_y_control) / estimate_y_control
     return lift
 
-output = "Прирост среднего значения B-подвыборки(test) относительно A-подвыборки(control): {}\n"
+output = "Прирост(Lift) среднего значения B-подвыборки(test) относительно A-подвыборки(control): {}\n"
 print(output.format(estimate_lift(np.mean(bootstrap_values2), np.mean(bootstrap_values))))
+
+# Cohen's D - мера эффекта
+def cohens_d(estimate_y_test, estimate_y_control, var_t, var_c, n_t, n_c):
+    pooled_sd = np.sqrt( ( (n_t - 1) * var_t **2 + (n_c -1) * var_c **2) / n_t + n_c - 2)
+    d = abs((estimate_y_test - estimate_y_control)) / pooled_sd
+    return d
+
+cohens_es = cohens_d(np.mean(bootstrap_values), np.mean(bootstrap_values2),
+                     np.var(bootstrap_values), np.var(bootstrap_values2), B, B)
+
+if cohens_es < 0.01:
+    output = "Cohen's D (Стандартизированный прирост) - ниже табличных значений," \
+             " что может указывать на необходимость более крупного размера выборки ({})"
+    print(output.format(cohens_es))
+elif 0.01 < cohens_es < 0.2:
+    output = "Cohen's D (Стандартизированный прирост) - Very small ({})"
+    print(output.format(cohens_es))
+elif 0.2 < cohens_es < 0.5:
+    output = "Cohen's D (Стандартизированный прирост) - Small ({})"
+    print(output.format(cohens_es))
+elif 0.5 < cohens_es < 0.8:
+    output = "Cohen's D (Стандартизированный прирост) - Medium ({})"
+    print(output.format(cohens_es))
+elif 0.8 < cohens_es < 1.2:
+    output = "Cohen's D (Стандартизированный прирост) - Large ({})"
+    print(output.format(cohens_es))
+elif 1.2 < cohens_es < 2:
+    output = "Cohen's D (Стандартизированный прирост) - Very large ({})"
+    print(output.format(cohens_es))
+else:
+    output = "Cohen's D (Стандартизированный прирост) - Huge ({})"
+    print(output.format(cohens_es))
+
+# Интерпретация Cohen's D
+output = " === Интерпретация Cohen's D ===\n{:<10} |{:>10}\n{:<10} |{:>10} \n" \
+         "{:<10} |{:>10} \n{:<10} |{:>10} \n{:<10} |{:>10} \n{:<10} |{:>10} \n{:<10} |{:>10} \n"
+print(output.format("ES", "D", "Very small", "0.01", "Small", "0.2", "Medium", "0.5", "Large", "0.8",
+                    "Very large", "1.2", "Huge", "2.0"))
