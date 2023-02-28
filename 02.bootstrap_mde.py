@@ -8,6 +8,10 @@ from scipy.stats import anderson, norm
 from scipy import stats
 
 # Загрузка данных, выбор нужных столбцов NO, отсечение строк с отсутствующими значениями
+"""
+Настоящий датасет доступен для загрузки со страницы по адресу:
+https://www.kaggle.com/datasets/rohanrao/air-quality-data-in-india?select=city_day.csv
+"""
 aqi_ds_city_day = pd.read_csv("F:/DATASETS/kaggle/air_quality_india/city_day.csv")
 df = aqi_ds_city_day[aqi_ds_city_day["City"] == "Delhi"][["NO"]]
 df = df.dropna()
@@ -76,7 +80,7 @@ plt.show()  # Гистограмма распределения бутстрап
 # B-подвыборка
 bootstrap_values2 = []
 for _ in range(B):
-    values = np.random.choice(a_df["NO"], n, True)
+    values = np.random.choice(b_df["NO"], n, True)
     bootstrap_values2.append(values.mean())
 
 norm_check = stats.shapiro(bootstrap_values2)
@@ -100,3 +104,5 @@ def estimate_effect_size(sd1, sd2, n, alpha, power):
 
 output = "MDE for alpha={} and power={}: "
 print(output.format(alpha, beta), estimate_effect_size(sd_a, sd_b, n, alpha, beta))
+print("Среднее по бутстрапированным средним A-подвыборки", np.mean(bootstrap_values))
+print("Среднее по бутстрапированным средним B-подвыборки", np.mean(bootstrap_values2))
