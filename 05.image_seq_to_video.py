@@ -5,7 +5,7 @@ import os
 # Эта функция преобразует последовательность изображений в видео
 # Path to image folders
 # Путь к изображениям
-path = 'F:/DATASETS/DAVIS/DAVIS/JPEGImages/480p/bear/'
+path = 'F:/DATASETS/DAVIS/DAVIS/JPEGImages/480p/'
 
 
 def image_to_video(image_folder, fps):
