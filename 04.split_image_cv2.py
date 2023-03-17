@@ -121,7 +121,7 @@ def slicing_image_with_sliding_window(image_name, wind_width, wind_height, step_
         count_row = 0
         for row_roll in column_roll:
             for sliced_image in row_roll:
-                sliced_image_name = f"{image_name[:-4]}(form({(count_row * step_x)},{(count_col * step_y)})to(" \
+                sliced_image_name = f"{image_name[:-4]}-from({(count_row * step_x)},{(count_col * step_y)})to(" \
                                     f"{(count_row * step_x) + wind_width},{(count_col * step_y) + wind_height}" \
                                     f").jpg"
                 cv2.imwrite(f"sliced_images/{sliced_image_name}", sliced_image)
