@@ -11,6 +11,11 @@ for address, dirs, files in os.walk(path):
     for name in files:
         images_list.append(os.path.join(address, name))
 
+
+def image_validation(original_image_as_array, merged_image_as_array):
+    return np.array_equal(original_image_as_array, merged_image_as_array)
+
+
 row_block = []
 for x in range(0, 1920, 960):
     col_blocks = []
@@ -21,4 +26,4 @@ for x in range(0, 1920, 960):
     row_block.append(np.concatenate(col_blocks, axis=0))
 full_image = np.concatenate(row_block, axis=1)
 cv2.imwrite("to_fullLLL.jpg", full_image)
-
+print("Validation ", image_validation(cv2.imread("IMAGAA.jpg"), full_image))
