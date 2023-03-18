@@ -5,7 +5,7 @@ import numpy as np
 # Baseline merge
 
 path = 'sliced_images/'
-# загрузить все нарезанные блоки в список
+
 images_list = []
 for address, dirs, files in os.walk(path):
     for name in files:
