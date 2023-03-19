@@ -20,10 +20,10 @@ row_block = []
 for x in range(0, 1920, 960):
     col_blocks = []
     for y in range(0, 1080, 540):
-        namefile = f"sliced_images/IMAGAA-from({x},{y})to({x+960},{y+540}).jpg"
+        namefile = f"sliced_images/IMAGAA-from({x},{y})to({x+960},{y+540}).png"
         block = cv2.imread(namefile)
         col_blocks.append(block)
     row_block.append(np.concatenate(col_blocks, axis=0))
 full_image = np.concatenate(row_block, axis=1)
-cv2.imwrite("to_fullLLL.jpg", full_image)
+cv2.imwrite("to_fullLLL.png", full_image)
 print("Validation ", image_validation(cv2.imread("IMAGAA.jpg"), full_image))
