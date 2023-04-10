@@ -255,9 +255,9 @@ def preprocess(data):
     data["gs-4"] = data["gate_id"].shift(-4)
     data["gs-5"] = data["gate_id"].shift(-5)
     data["lag"] = data["lag"].apply(lambda x: 1 if x < 2 else 0) # Перевод фичей с разницей срабатываний в нули и единицы
-    data["l3s"] = data["l3s"].apply(lambda x: 1 if x <= 3 else 0)
+    data["l3s"] = data["l3s"].apply(lambda x: 1 if x <= 3 else 0) # Отдельно выделен диапазон <=3 сек
     data["l-1"] = data["l3s"].shift(-1)
-    data.loc[data["l3s"].eq(1) | data["l-1"].eq(1), "ls1"] = 1 # Отдельно выделен диапазон <=3 сек
+    data.loc[data["l3s"].eq(1) | data["l-1"].eq(1), "ls1"] = 1
     data["lag1"] = data["lag1"].apply(lambda x: 1 if 6 > x > 2 else 0)
     data["lag2"] = data["lag2"].apply(lambda x: 1 if 15 > x >= 6 else 0)
     data["lag3"] = data["lag3"].apply(lambda x: 1 if 22 > x >= 15 else 0)
